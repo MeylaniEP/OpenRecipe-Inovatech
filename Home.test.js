@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Home from './Home'; // sesuaikan path jika berbeda
+import Home from './src/pages/Home'; 
 import '@testing-library/jest-dom/extend-expect';
 
 test('renders Home component', () => {
