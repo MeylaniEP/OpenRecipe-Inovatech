@@ -28,7 +28,7 @@ const ingredients = [
   { name: "Spinach", image: Spinach },
   { name: "Celery", image: Celery },
   { name: "Banana", image: Banana },
-  { name: "Milk", image: Milk },
+  { name: "Milk", image:  },
   { name: "Avocado", image: Avocado },
   { name: "Carrot", image: Carrot },
 ];
