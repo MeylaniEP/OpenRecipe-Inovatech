@@ -30,7 +30,7 @@ const ingredients = [
   { name: "Banana", image: Banana },
   { name: "Milk", image: Milk },
   { name: "Avocado", image: Avocado },
-  { name: "Carrot", image:  },
+  { name: "Carrot", image: Carrot },
 ];
 
 function Home() {
