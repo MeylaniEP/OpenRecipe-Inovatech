@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react";k
 import Panggang from "../assets/main courses/panggang.jpg";
 import Rendang from "../assets/main courses/rendang.jpg";
 import { MdOutlineSkipNext } from "react-icons/md";

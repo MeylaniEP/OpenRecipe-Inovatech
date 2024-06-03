@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";

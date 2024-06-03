@@ -1,4 +1,3 @@
-import React from "react";
 import { IoIosSearch } from "react-icons/io";
 import Fish from "../assets/animal/fish.png";
 import Egg from "../assets/animal/egg.png";
@@ -13,7 +12,6 @@ import Avocado from "../assets/fruit/avocado.png";
 import Carrot from "../assets/vegetable/carrots.png";
 import CountryDropdown from "../components/CountryDropdown";
 import HomeInggredients from "../components/HomeInggredients";
-import More from "../assets/More.png";
 import FoodVariant from "../components/FoodVariant";
 import ListFoodVarian from "../components/ListFoodVarian";
 import FilterFoodVarian from "../components/FilterFoodVarian";

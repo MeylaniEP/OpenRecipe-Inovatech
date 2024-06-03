@@ -1,4 +1,3 @@
-import React from 'react'
 import Panggang from "../assets/main courses/panggang.jpg";
 import Rendang from "../assets/main courses/rendang.jpg";
 
