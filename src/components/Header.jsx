@@ -16,7 +16,7 @@ function Header() {
     <>
       <Navbar
         expand="md"
-        className="d-flex fixed-top flex-row justify-content-between align-items-center px-4"
+        className=" d-flex fixed-top flex-row justify-content-between align-items-center px-4"
         style={{
           backgroundColor: "rgba(255, 255, 255, 1)",
           borderRadius: "0px 0px 1rem 1rem",
@@ -44,7 +44,7 @@ function Header() {
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <Nav className="flex-column p-3">
           <Nav.Link as={Link} to="/home">Home</Nav.Link>
-          <Nav.Link as={Link} to="/ingredients">Ingredients</Nav.Link>
+          <Nav.Link as={Link} to="/inggredients">Ingredients</Nav.Link>
           <Nav.Link as={Link} to="/tools">Tools</Nav.Link>
           <Nav.Link as={Link} to="/shop">Shop</Nav.Link>
         </Nav>
@@ -83,6 +83,9 @@ function Header() {
 
           .site-title {
             font-size: 1.2rem; /* Even smaller size for extra small screens */
+          }
+          #basic-navbar-nav{
+          display: none;
           }
         }
 

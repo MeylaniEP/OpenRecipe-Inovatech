@@ -33,93 +33,171 @@ const ingredients = [
 
 function Home() {
   return (
-    <div
-      className="d-flex flex-column"
-      style={{ backgroundColor: "#FAF9F6", height: "100%" }}
-    >
-      <div
-        className="d-flex flex-column align-items-center"
-        style={{ height: "100%" }}
-      >
-        <div
-          className="d-flex flex-row justify-content-between align-items-center"
-          style={{ width: "95%", height: "35%", marginTop: "2em" }}
-        >
-          <div className="d-flex flex-column" style={{ width: "45%" }}>
-            <div>
-              <h1>What Would You Like To Cook Today ?</h1>
+    <div className="container">
+      <div className="content">
+        <div className="header">
+          <div className="left">
+            <div className="title">
+              <h1>What Would You Like To Cook Today?</h1>
             </div>
-            <div
-              className="d-flex flex-row align-items-center"
-              style={{
-                color: "rgba(42, 122, 178, 1)",
-                backgroundColor: "rgba(255, 255, 255, 1)",
-                borderRadius: "10px",
-                boxShadow: "0 0.25rem 0.5rem rgba(0, 0, 0, 0.25)",
-                marginTop: "1.5em",
-                height: "3.63rem",
-              }}
-            >
-              <div className="d-flex flex-row mx-4 gap-4">
+            <div className="search-bar">
+              <div className="search-content">
                 <IoIosSearch className="fs-3" />
                 <p className="p-0 m-0">Search any recipes</p>
               </div>
             </div>
-            <div className="mt-4" style={{ width: "30%" }}>
+            <div className="country-dropdown">
               <label htmlFor="">Choose Country</label>
               <CountryDropdown />
             </div>
           </div>
-
-          <div
-            className="d-flex flex-row justify-content-center align-items-center"
-            style={{ width: "45%", height: "100%" }}
-          >
+          <div className="right">
             <HomeInggredients ingredients={ingredients} />
           </div>
         </div>
-
-        <div
-          className="d-flex flex-row justify-content-between align-items-center"
-          style={{ width: "95%", marginTop: "1em" }}
-        >
-          <div className="d-flex flex-column" style={{ width: "75%" }}>
-            <div>
-              <div>
-                <FoodVariant />
-              </div>
-              <div>
-                <ListFoodVarian />
-              </div>
+        <div className="main">
+          <div className="main-left">
+            <div className="scrollable-videos">
+              <FoodVariant />
             </div>
-            <div>
-              <div>
-                <FilterFoodVarian />
-              </div>
-              <div>
-                <ListFood />
-              </div>
+            <div className="scrollable-videos">
+              <ListFoodVarian />
+            </div>
+            <div className="scrollable-videos">
+              <FilterFoodVarian />
+            </div>
+            <div className="scrollable-videos">
+              <ListFood />
             </div>
           </div>
-          <div
-            className="d-flex flex-column justify-content-center align-items-center "
-            style={{ width: "25%", height: "" }}
-          >
-            <div
-              className="d-flex flex-row justify-content-center align-items-center mb-2"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 1)",
-                borderRadius: "1rem 1rem 1rem 1rem",
-                boxShadow: "0 0.25rem 0.5rem rgba(0, 0, 0, 0.25)",
-                width: "100%",
-                minHeight: "500px",
-              }}
-            >
-              ads
-            </div>
+          <div className="main-right">
+            <div className="ads">ads</div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .container {
+          display: flex;
+          flex-direction: column;
+          background-color: #faf9f6;
+          height: 100%;
+        }
+        .content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 100%;
+        }
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 95%;
+          height: 35%;
+          margin-top: 2em;
+          flex-wrap: wrap;
+        }
+        .left,
+        .right {
+          width: 45%;
+        }
+        .left {
+          display: flex;
+          flex-direction: column;
+        }
+        .title {
+          display: block;
+        }
+        .search-bar {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          color: rgba(42, 122, 178, 1);
+          background-color: rgba(255, 255, 255, 1);
+          border-radius: 10px;
+          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+          margin-top: 1.5em;
+          height: 3.63rem;
+        }
+        .search-content {
+          display: flex;
+          flex-direction: row;
+          margin-left: 1em;
+          gap: 1em;
+        }
+        .country-dropdown {
+          margin-top: 1em;
+          width: 30%;
+        }
+        .main {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 95%;
+          margin-top: 1em;
+          flex-wrap: wrap;
+        }
+        .main-left {
+          width: 75%;
+          display: flex;
+          flex-direction: column;
+        }
+        .main-right {
+          width: 25%;
+        }
+        .ads {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(255, 255, 255, 1);
+          border-radius: 1rem;
+          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+          width: 100%;
+          min-height: 500px;
+          margin-bottom: 2em;
+        }
+
+        @media (max-width: 768px) {
+          .scrollable-videos {
+            display: flex;
+            overflow-x: auto;
+            gap: 1em;
+            padding-bottom: 1em;
+          }
+          .scrollable-videos > * {
+            flex: 0 0 auto;
+          }
+          .header {
+            flex-direction: column;
+            align-items: center;
+          }
+          .left,
+          .right {
+            width: 100%;
+          }
+          .title {
+            display: none;
+          }
+          .main {
+            flex-direction: column;
+            align-items: center;
+          }
+          .main-left,
+          .main-right {
+            width: 100%;
+          }
+          .main-right {
+            display: none;
+          }
+          .country-dropdown {
+            width: 100%;
+          }
+          .search-bar {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 }
