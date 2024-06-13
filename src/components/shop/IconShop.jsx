@@ -5,7 +5,7 @@ import { BsCartFill } from "react-icons/bs";
 function IconShop() {
   return (
     <div>
-      <div className="card-shop card" style={{ maxWidth: "13rem", }}>
+      <div className="card-shop card" style={{ maxWidth: "10rem", }}>
         <img src={Jahe2} className="card-img-top" alt="..." />
         <div className="card-body d-flex flex-column gap-2">
           <h5 className="card-title" style={{ fontSize: "1em" }}>

@@ -1,4 +1,3 @@
-import Ads from "../components/Ads";
 import CartUser from "../components/shop/CartUser";
 import FilterMenu from "../components/shop/FilterMenu";
 import IconShop from "../components/shop/IconShop";
@@ -6,8 +5,8 @@ import { IoIosSearch } from "react-icons/io";
 
 function Shop() {
   return (
-    <div className="d-flex flex-row justify-content-between">
-      <div className="d-flex flex-column mx-4 mt-3" style={{ width: "70%" }}>
+    <div className="d-flex flex-row justify-content-between" style={{height:"100vh", backgroundColor: "#FAF9F6"}}>
+      <div className="d-flex flex-column mx-4 mt-3 mb-4" style={{ width: "60%" }}>
         {/* search */}
         <div className="mb-4">
           <div
@@ -38,7 +37,7 @@ function Shop() {
         {/* card section */}
         <div>
           <h2>Spice</h2>
-          <div className="d-flex flex-row flex-wrap gap-2" style={{}}>
+          <div className="d-flex flex-row flex-wrap gap-2" style={{width:"100%"}}>
             <IconShop />
             <IconShop />
             <IconShop />
@@ -47,7 +46,7 @@ function Shop() {
           </div>
         </div>
       </div>
-      <div className="d-flex flex-row mx-2 mt-5" style={{width:"28%"}}>
+      <div className="d-flex flex-row mx-2 mt-5" style={{width:"30%"}}>
         <CartUser />
       </div>
     </div>
