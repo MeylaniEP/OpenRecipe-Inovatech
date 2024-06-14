@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import CountryDropdown from "../components/CountryDropdown";
 import HomeInggredients from "../components/HomeInggredients";
-import FoodVariant from "../components/FoodVariant";
 import ListFoodVarian from "../components/ListFoodVarian";
 import FilterFoodVarian from "../components/FilterFoodVarian";
 import ListFood from "../components/ListFood";
@@ -17,8 +16,6 @@ import Banana from "../assets/fruit/banana.png";
 import Milk from "../assets/animal/milk.png";
 import Avocado from "../assets/fruit/avocado.png";
 import Carrot from "../assets/vegetable/carrots.png";
-import FoodVariantContainer from "../components/FoodVariant";
-
 
 const ingredients = [
   { name: "Fish", image: Fish },
@@ -191,8 +188,7 @@ function Home() {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // Simulate a 3 second loading time
-
+    }, 1000); 
     return () => clearTimeout(timer);
   }, []);
 
@@ -224,9 +220,6 @@ function Home() {
           </div>
           <div className="main">
             <div className="main-left">
-              <div className="scrollable-videos">
-                {loading ? <FoodVariantSkeleton /> : <FoodVariant />}
-              </div>
               <div className="scrollable-videos">
                 <ListFoodVarian />
               </div>

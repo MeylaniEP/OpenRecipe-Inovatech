@@ -17,6 +17,9 @@ import Shop from "./pages/Shop.jsx";
 import ShopTypeAddres from "./pages/ShopTypeAddres.jsx";
 import ShopFix from "./pages/ShopFix.jsx";
 import ShopLayout from "./layout/ShopLayout.jsx";
+import VideoPlayer from "./pages/VideoPlayer.jsx";
+import VideoListByInggredients from "./pages/VideoListByInggredients.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,11 +31,14 @@ const router = createBrowserRouter(
         <Route element={<Tools />} path="tools" />
         <Route element={<Shop />} path="shop" />
       </Route>
-        <Route element={<ShopLayout />} path="/shoping">
-          <Route index element={<Navigate to="shop-typeAddress" replace />} />
-          <Route element={<ShopTypeAddres />} path="shop-typeAddress" />
-          <Route element={<ShopFix />} path="shop-fix" />
-        </Route>
+      <Route element={<ShopLayout />} path="/shoping">
+        <Route index element={<Navigate to="shop-typeAddress" replace />} />
+        <Route element={<ShopTypeAddres />} path="shop-typeAddress" />
+        <Route element={<ShopFix />} path="shop-fix" />
+      </Route>
+      <Route path="/search" element={<SearchPage />} />
+      <Route element={<VideoListByInggredients />} path="/videos-by-ingredient/:ingredientName"/>
+      <Route element={<VideoPlayer />} path="/video-player/:videoId"/>
     </>
   )
 );
