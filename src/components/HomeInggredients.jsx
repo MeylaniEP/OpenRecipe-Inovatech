@@ -30,7 +30,7 @@ const HomeIngredients = ({ ingredients }) => {
             </div>
           ))}
           <div className="d-flex flex-column align-items-center p-1 ingredient-box">
-            <Nav.Link as={Link} to="/ingredients">
+            <Nav.Link as={Link} to="/inggredients">
               More
             </Nav.Link>
           </div>

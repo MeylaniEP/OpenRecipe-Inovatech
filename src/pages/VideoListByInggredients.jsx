@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaPlay } from 'react-icons/fa';
-import getVideoByIngredients from '../api/getVideoByInggredients';
 import { IoMdArrowBack } from "react-icons/io";
+import getVideoByIngredients from '../api/getVideoByInggredients';
+import Loading from '../components/Loading';
 
 function VideoListByIngredients() {
   const { ingredientName } = useParams();
@@ -14,9 +15,14 @@ function VideoListByIngredients() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const data = await getVideoByIngredients(ingredientName);
-        setVideos(data.data);
+        const response = await getVideoByIngredients(ingredientName);
+        if (response && response.data) {
+          setVideos(response.data);
+        } else {
+          console.error("Invalid API response:", response);
+        }
       } catch (error) {
+        console.error("Error fetching videos:", error);
         setError(error.message);
       } finally {
         setLoading(false);
@@ -26,8 +32,14 @@ function VideoListByIngredients() {
     fetchVideos();
   }, [ingredientName]);
 
-  const handleVideoClick = (videoId) => {
-    navigate(`/video-player/${videoId}`);
+  const handleVideoClick = (videoLink) => {
+    const videoIdMatch = videoLink?.match(/(?:embed\/|watch\?v=|\.be\/)([^&?]+)/);
+    const videoId = videoIdMatch ? videoIdMatch[1] : null;
+    if (videoId) {
+      navigate(`/video-player/${videoId}`);
+    } else {
+      console.error("Invalid video link:", videoLink);
+    }
   };
 
   const handleMouseEnter = (e) => {
@@ -43,7 +55,7 @@ function VideoListByIngredients() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Loading /></div>;
   }
 
   if (error) {
@@ -92,17 +104,17 @@ function VideoListByIngredients() {
   return (
     <div className='m-5'>
       <div className="d-flex gap-3 align-items-center mb-4">
-        <IoMdArrowBack style={{cursor:"pointer"}} className='fs-2' onClick={handleBackClick}/>
+        <IoMdArrowBack style={{ cursor: "pointer" }} className='fs-2' onClick={handleBackClick} />
         <h1>{ingredientName} Ingredients</h1>
       </div>
       <div className="d-flex flex-row justify-content-start flex-wrap">
         {videos.map((video) => {
-          const videoIdMatch = video.videoLink?.match(/embed\/([^?]+)/);
+          const videoIdMatch = video.videoLink?.match(/(?:embed\/|watch\?v=|\.be\/)([^&?]+)/);
           const videoId = videoIdMatch ? videoIdMatch[1] : null;
 
           return (
             <div key={video.videoId} className="d-flex flex-row flex-wrap">
-              <div onClick={() => handleVideoClick(video.videoId)}>
+              <div onClick={() => handleVideoClick(video.videoLink)}>
                 <div
                   className="video-container"
                   style={videoContainerStyle}

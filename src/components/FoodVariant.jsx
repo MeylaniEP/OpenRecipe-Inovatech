@@ -1,17 +1,3 @@
-// import { NavLink } from 'react-bootstrap';
-
-// function FoodVariant({ setCategory }) {
-//   return (
-//     <div className='d-flex flex-row gap-3'>
-//       <NavLink onClick={() => setCategory("Main Course")}>Main Course</NavLink>
-//       <NavLink onClick={() => setCategory("Dessert")}>Dessert</NavLink>
-//       <NavLink onClick={() => setCategory("Appetize")}>Appetizer</NavLink>
-//       <NavLink onClick={() => setCategory("Bakery")}>Bakery</NavLink>
-//     </div>
-//   );
-// }
-
-// export default FoodVariant;
 import { NavLink } from 'react-bootstrap';
 import { useState } from 'react';
 

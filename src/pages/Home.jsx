@@ -230,9 +230,9 @@ function Home() {
                 <ListFood />
               </div>
             </div>
-            <div className="main-right">
+            {/* <div className="main-right">
               <div className="ads">ads</div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
@@ -294,12 +294,12 @@ function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          width: 95%;
+          width: 100%;
           margin-top: 1em;
           flex-wrap: wrap;
         }
         .main-left {
-          width: 75%;
+          width: 100%;
           display: flex;
           flex-direction: column;
         }
