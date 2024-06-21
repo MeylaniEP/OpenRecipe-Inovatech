@@ -233,9 +233,9 @@ function Home() {
                 <ListFood />
               </div>
             </div>
-            {/* <div className="main-right">
+            <div className="fixed-bottom d-flex flex-row justify-content-center" style={{bottom:"0px", width:"100vw"}}>
               <div className="ads">ads</div>
-            </div> */}
+            </div>
           </div>
         </div>
       )}
@@ -316,9 +316,9 @@ function Home() {
           background-color: rgba(255, 255, 255, 1);
           border-radius: 1rem;
           box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
-          width: 100%;
-          min-height: 500px;
-          margin-bottom: 2em;
+          width: 70%;
+          min-height: 90px;
+          margin-bottom: -2em;
         }
 
         @media (max-width: 768px) {
