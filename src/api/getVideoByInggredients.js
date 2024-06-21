@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const getVideoByIngredients = async (ingredient) => {
-  const apiUrl = `${import.meta.env.VITE_API}?request=videoList&option=ingpage&country=indonesia&ingredients=${ingredient}&limit=100&offset=0`;
+  const apiUrl = `${import.meta.env.VITE_API}?request=videoList&option=ingpage&country=China&ingredients=${ingredient}&limit=100&offset=0`;
 
   try {
     const response = await axios.get(apiUrl);

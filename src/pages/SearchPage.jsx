@@ -1,20 +1,56 @@
-// src/pages/SearchPage.jsx
-import React, { useState } from 'react';
-import getVideoTrends from '../api/getVideoTrends';
+import React, { useState, useEffect } from "react";
+import searchVideo from "../api/searchVideo";
+import getVideoTrends from "../api/getVideoTrends";
+import { FaPlay } from "react-icons/fa";
+import Loading from "../components/Loading";
+import { BsSearch } from "react-icons/bs";
+import { IoMdArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 function SearchPage() {
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTrendingVideos = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await getVideoTrends();
+        if (response && response.data) {
+          setVideos(response.data);
+        } else if (Array.isArray(response)) {
+          setVideos(response);
+        } else {
+          setError("Unexpected response format");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrendingVideos();
+  }, []);
 
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const data = await getVideoTrends(keyword);
-      setVideos(data);  // Pastikan struktur data sesuai dengan API response
+      const response = await searchVideo(keyword);
+      if (response && response.data) {
+        setVideos(response.data);
+      } else if (Array.isArray(response)) {
+        setVideos(response);
+      } else {
+        setError("Unexpected response format");
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -22,86 +58,159 @@ function SearchPage() {
     }
   };
 
-  return (
-    <div>
-      <h1>Search Videos</h1>
-      <input 
-        type="text" 
-        value={keyword} 
-        onChange={(e) => setKeyword(e.target.value)} 
-        placeholder="Enter keyword" 
-      />
-      <button onClick={handleSearch}>Search</button>
+  const handleVideoClick = (videoLink) => {
+    const videoIdMatch = videoLink?.match(
+      /(?:embed\/|watch\?v=|\.be\/)([^&?]+)/
+    );
+    const videoId = videoIdMatch ? videoIdMatch[1] : null;
+    if (videoId) {
+      navigate(`/video-player/${videoId}`);
+    } else {
+      console.error("Invalid video link:", videoLink);
+    }
+  };
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {videos.length > 0 && (
-        <div>
-          {videos.map((video) => (
-            <div key={video.videoId}>
-              <h2>{video.videoName}</h2>
-              {/* <a href={video.url}>Watch Video</a> */}
-            </div>
-          ))}
+  const handleMouseEnter = (e) => {
+    e.currentTarget.querySelector(".overlay").style.opacity = "1";
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.querySelector(".overlay").style.opacity = "0";
+  };
+
+  const videoContainerStyle = {
+    position: "relative",
+    flex: "1 1 200px",
+    minWidth: "200px",
+    maxWidth: "150px",
+    margin: "0.5rem",
+    cursor: "pointer",
+  };
+
+  const videoThumbnailStyle = {
+    borderRadius: "1em",
+  };
+
+  const overlayStyle = {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: "0",
+    transition: "opacity 0.3s",
+    borderRadius: "1em",
+  };
+
+  const titleStyle = {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    maxWidth: "200px",
+  };
+
+  return (
+    <div className="container mt-4">
+      <div className="d-flex flex-row gap-2 align-items-center mb-3">
+        <IoMdArrowBack onClick={() => navigate("/")} className="fs-2" style={{ cursor: "pointer" }} />
+        <h1>Search Videos</h1>
+      </div>
+      <div className="input-group mb-3 gap-3">
+        <input
+          type="text"
+          className="form-control"
+          style={{
+            borderRadius: "20px",
+            border: "rgba(42, 122, 178, 1) solid 1.5px",
+          }}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="Search .."
+        />
+        <button
+          className="btn"
+          style={{
+            borderRadius: "100%",
+            border: "rgba(42, 122, 178, 1) solid 1px",
+            height: "55px",
+            width: "55px",
+            background: "rgba(42, 122, 178, 1)",
+          }}
+          onClick={handleSearch}
+          disabled={loading}
+        >
+          <BsSearch className="fs-3 fw-bold text-light" />
+        </button>
+      </div>
+
+      {loading && <Loading />}
+      {error && <p className="text-danger">Error: {error}</p>}
+      {(Array.isArray(videos) && videos.length > 0) ? (
+        <div className="d-flex flex-row justify-content-start flex-wrap">
+          {videos?.map((video) => {
+            const videoIdMatch = video.videoLink?.match(
+              /(?:embed\/|watch\?v=|\.be\/)([^&?]+)/
+            );
+            const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+            return (
+              <div key={video.videoId} className="d-flex flex-row flex-wrap">
+                <div onClick={() => handleVideoClick(video.videoLink)}>
+                  <div
+                    className="video-container"
+                    style={videoContainerStyle}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div style={{ width: "100%" }}>
+                      {videoId ? (
+                        <img
+                          className="img-fluid border"
+                          style={videoThumbnailStyle}
+                          src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
+                          alt={video.videoName}
+                        />
+                      ) : (
+                        <p>Invalid video link</p>
+                      )}
+                    </div>
+                    <div className="overlay" style={overlayStyle}>
+                      <FaPlay style={{ color: "rgba(42, 122, 178, 1)" }} />
+                    </div>
+                  </div>
+                  <div className="mx-2">
+                    <p className="m-0 p-0" style={titleStyle}>
+                      {video.videoName}
+                    </p>
+                    <p
+                      style={{ fontSize: "calc(0.8vw + 0.2em)", color: "grey" }}
+                    >
+                      {formatViewCount(Number(video.viewCount))} views
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
+      ): (
+        <>Tidak ada banh!</>
       )}
     </div>
   );
 }
 
+const formatViewCount = (viewCount) => {
+  if (viewCount >= 1000000) {
+    return (viewCount / 1000000).toFixed(1) + "M";
+  } else if (viewCount >= 1000) {
+    return (viewCount / 1000).toFixed(1) + "K";
+  }
+  return viewCount.toString();
+};
+
 export default SearchPage;
-
-// import React, { useState } from 'react';
-// import getVideoTrends from '../api/getVideoTrends';
-
-// function SearchPage() {
-//   const [keyword, setKeyword] = useState('');
-//   const [videos, setVideos] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-
-//   const handleSearch = async () => {
-//     setLoading(true);
-//     setError(null);
-
-//     try {
-//       const data = await getVideoTrends(keyword);
-//       setVideos(data); // Menyimpan data video ke dalam state 'videos'
-//     } catch (err) {
-//       setError(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h1>Search Videos</h1>
-//       <input 
-//         type="text" 
-//         value={keyword} 
-//         onChange={(e) => setKeyword(e.target.value)} 
-//         placeholder="Enter keyword" 
-//       />
-//       <button onClick={handleSearch}>Search</button>
-
-//       {loading && <p>Loading...</p>}
-//       {error && <p>Error: {error}</p>}
-//       {videos.length > 0 && (
-//         <div>
-//           {videos.map((video) => (
-//             <div key={video.videoId}>
-//               <h2>{video.videoName}</h2>
-//               <p>Country: {video.country}</p>
-//               <p>Category: {video.category}</p>
-//               <p>Views: {video.viewCount}</p>
-//               <a href={video.videoLink}>Watch Video</a>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default SearchPage;

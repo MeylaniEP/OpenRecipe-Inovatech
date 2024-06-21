@@ -12,7 +12,6 @@ function Header() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Definisikan linkStyle di dalam komponen Header
   const linkStyle = {
     color: "rgba(42, 122, 178, 1)",
     padding: "10px",

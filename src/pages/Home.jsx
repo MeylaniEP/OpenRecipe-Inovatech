@@ -16,6 +16,7 @@ import Banana from "../assets/fruit/banana.png";
 import Milk from "../assets/animal/milk.png";
 import Avocado from "../assets/fruit/avocado.png";
 import Carrot from "../assets/vegetable/carrots.png";
+import { useNavigate } from "react-router-dom";
 
 const ingredients = [
   { name: "Fish", image: Fish },
@@ -32,6 +33,7 @@ const ingredients = [
 ];
 
 function SkeletonLoader() {
+
   return (
     <div className="skeleton-container">
       <div className="skeleton-content">
@@ -184,6 +186,7 @@ function SkeletonLoader() {
 
 function Home() {
   const [loading, setLoading] = React.useState(true);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -203,7 +206,7 @@ function Home() {
               <div className="title">
                 <h1>What Would You Like To Cook Today?</h1>
               </div>
-              <div className="search-bar">
+              <div className="search-bar" style={{cursor:"pointer"}} onClick={() => navigate("/search")}>
                 <div className="search-content">
                   <IoIosSearch className="fs-3" />
                   <p className="p-0 m-0">Search any recipes</p>

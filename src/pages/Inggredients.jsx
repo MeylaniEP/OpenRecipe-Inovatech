@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Nav } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import AnimalInggredient from "../components/menuInggredients/AnimalInggredient";
 import Fish from "../assets/animal/fish.png";
 import Egg from "../assets/animal/egg.png";
@@ -24,6 +26,8 @@ import FruitInggredients from "../components/menuInggredients/FruitInggredients"
 import Ads from "../components/Ads";
 
 function Inggredients() {
+  const navigate = useNavigate();
+
   const meatIngredients = [
     { name: "Fish", image: Fish },
     { name: "Egg", image: Egg },
@@ -33,6 +37,7 @@ function Inggredients() {
     { name: "Skin", image: Skin },
     { name: "Gut", image: Gut },
   ];
+
   const vegetableInggredients = [
     { name: "Potato", image: Potato },
     { name: "Spinach", image: Spinach },
@@ -41,70 +46,119 @@ function Inggredients() {
     { name: "Cabbage", image: Cabbage },
     { name: "Celery", image: Celery },
   ];
+
   const fruitableInggredients = [
     { name: "Avocado", image: Avocado },
     { name: "Apple", image: Apple },
     { name: "Banana", image: Banana },
     { name: "Orange", image: Orange },
-    { name: "Water..", image: WaterMelon },
+    { name: "WaterMelon", image: WaterMelon },
     { name: "Mango", image: Mango },
   ];
+
+  const handleIngredientClick = (ingredient) => {
+    navigate(`/videos-by-ingredient/${ingredient}`);
+  };
+
+  const renderIngredients = (ingredients) => {
+    if (!ingredients) {
+      return null;
+    }
+
+    return (
+      <div className="scrollable-ingredients d-flex flex-lg-wrap gap-2 justify-content-start align-items-center">
+        {ingredients.map((ingredient, index) => (
+          <div
+            key={index}
+            className="d-flex flex-column align-items-center border rounded ingredient-box"
+            onClick={() => handleIngredientClick(ingredient.name)}
+            style={{ cursor: "pointer" }}
+          >
+            <img
+              src={ingredient.image}
+              alt={ingredient.name}
+              className="ingredient-image"
+            />
+            <label className="text-center">{ingredient.name}</label>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div
-      className="container-inggredientsMenu d-flex flex-row justify-content-between"
+      className="container-inggredientsMenu d-flex flex-row justify-content-between align-items-start p-4 mt-4"
       style={{ backgroundColor: "#FAF9F6", height: "100vh" }}
     >
-      <div className="d-flex flex-row mx-5 mt-5 justify-content-between w-100">
-        <div className="d-flex flex-column" style={{}}>
-          <div>
-            <div>
-              <h2>Meat and Animal Product</h2>
-            </div>
-            <div className="d-flex felx-row">
-              <div>
-                <AnimalInggredient meatInggredients={meatIngredients} />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <h2>Vegetables</h2>
-            </div>
-            <div className="d-flex felx-row">
-              <div>
-                <VegetablesInggredients
-                  vegetableInggredients={vegetableInggredients}
-                />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <h2>Fruits</h2>
-            </div>
-            <div className="d-flex felx-row">
-              <div>
-                <FruitInggredients fruitInggredients={fruitableInggredients} />
-              </div>
-            </div>
-          </div>
+     
+      <div>
+        <h1 className="title-inggredients mb-4">Choose Recipe by Ingredients</h1>
+        <div className="scrollable-container w-100">
+          <h2>Meat and Animal Products</h2>
+          {renderIngredients(meatIngredients)}
         </div>
-        <div className="ads-inggredients" style={{ width: "30%" }}>
-          <Ads />
+        <div className="scrollable-container w-100">
+          <h2>Vegetables</h2>
+          {renderIngredients(vegetableInggredients)}
+        </div>
+        <div className="scrollable-container w-100">
+          <h2>Fruits</h2>
+          {renderIngredients(fruitableInggredients)}
         </div>
       </div>
-      <style>
-        {`
-         @media (max-width: 768px) {
-        .ads-inggredients{
-        display: none;
+      <div className="ads-inggredients mb-4" style={{ width: "30%" }}>
+        <Ads />
+      </div>
+      <style>{`
+        .ingredient-box {
+          max-width: 65px;
+          max-height: 70px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 1em;
         }
-        .container-inggredientsMenu{
-        hight:100%;
+
+        .ingredient-image {
+          max-width: 70%;
+          max-height: 70%;
+          height: auto;
+          width: auto;
+          display: block;
         }
-      }
-        `}
-      </style>
+
+        .scrollable-container {
+          overflow-x: auto;
+          padding-bottom: 1em;
+        }
+
+        @media (max-width: 768px) {
+          .container-inggredientsMenu {
+            padding: 1em;
+          }
+          .scrollable-ingredients {
+            display: flex;
+            overflow-x: auto;
+            gap: 1em;
+          }
+          .scrollable-ingredients > * {
+            flex: 0 0 auto;
+          }
+          .container-inggredientsMenu {
+            background-color: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+          }
+          .ingredient-box {
+            background-color: rgba(255, 255, 255, 1);
+          }
+          .title-inggredients {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 }
