@@ -6,13 +6,26 @@ import Loading from "../components/Loading";
 import { BsSearch } from "react-icons/bs";
 import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import CountryDropdown from "../components/CountryDropdown";
 
 function SearchPage() {
   const [keyword, setKeyword] = useState("");
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchTrendingVideos = async () => {
@@ -78,11 +91,13 @@ function SearchPage() {
     e.currentTarget.querySelector(".overlay").style.opacity = "0";
   };
 
+  const isLargeScreen = windowWidth > 768;
+
   const videoContainerStyle = {
     position: "relative",
     flex: "1 1 200px",
-    minWidth: "200px",
-    maxWidth: "150px",
+    minWidth: isLargeScreen ? "200px" : "350px",
+    maxWidth: isLargeScreen ? "150px" : "200px",
     margin: "0.5rem",
     cursor: "pointer",
   };
@@ -113,43 +128,56 @@ function SearchPage() {
     maxWidth: "200px",
   };
 
+  const fontSize =
+    windowWidth > 768 ? "calc(0.8vw + 0.2em)" : "calc(0.8vw + 0.6em)";
+
   return (
     <div className="container mt-4">
       <div className="d-flex flex-row gap-2 align-items-center mb-3">
-        <IoMdArrowBack onClick={() => navigate("/")} className="fs-2" style={{ cursor: "pointer" }} />
+        <IoMdArrowBack
+          onClick={() => navigate("/")}
+          className="fs-2"
+          style={{ cursor: "pointer" }}
+        />
         <h1>Search Videos</h1>
       </div>
-      <div className="input-group mb-3 gap-3">
-        <input
-          type="text"
-          className="form-control"
-          style={{
-            borderRadius: "20px",
-            border: "rgba(42, 122, 178, 1) solid 1.5px",
-          }}
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Search .."
-        />
-        <button
-          className="btn"
-          style={{
-            borderRadius: "100%",
-            border: "rgba(42, 122, 178, 1) solid 1px",
-            height: "55px",
-            width: "55px",
-            background: "rgba(42, 122, 178, 1)",
-          }}
-          onClick={handleSearch}
-          disabled={loading}
-        >
-          <BsSearch className="fs-3 fw-bold text-light" />
-        </button>
+      <div>
+        <div className="input-group mb-3 gap-3">
+          <input
+            type="text"
+            className="form-control"
+            style={{
+              borderRadius: "20px",
+              border: "rgba(42, 122, 178, 1) solid 1.5px",
+            }}
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder="Search .."
+          />
+          <button
+            className="btn"
+            style={{
+              borderRadius: "100%",
+              border: "rgba(42, 122, 178, 1) solid 1px",
+              height: "55px",
+              width: "55px",
+              background: "rgba(42, 122, 178, 1)",
+            }}
+            onClick={handleSearch}
+            disabled={loading}
+          >
+            <BsSearch className="fs-3 fw-bold text-light" />
+          </button>
+        </div>
+        <div style={{width:"150px"}} className="mb-4">
+          <CountryDropdown />
+        </div>
       </div>
+      <div></div>
 
       {loading && <Loading />}
       {error && <p className="text-danger">Error: {error}</p>}
-      {(Array.isArray(videos) && videos.length > 0) ? (
+      {Array.isArray(videos) && videos.length > 0 ? (
         <div className="d-flex flex-row justify-content-start flex-wrap">
           {videos?.map((video) => {
             const videoIdMatch = video.videoLink?.match(
@@ -186,9 +214,7 @@ function SearchPage() {
                     <p className="m-0 p-0" style={titleStyle}>
                       {video.videoName}
                     </p>
-                    <p
-                      style={{ fontSize: "calc(0.8vw + 0.2em)", color: "grey" }}
-                    >
+                    <p style={{ fontSize, color: "grey" }}>
                       {formatViewCount(Number(video.viewCount))} views
                     </p>
                   </div>
@@ -197,7 +223,7 @@ function SearchPage() {
             );
           })}
         </div>
-      ): (
+      ) : (
         <>Tidak ada banh!</>
       )}
     </div>

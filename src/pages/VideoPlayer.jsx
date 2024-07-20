@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import getVideoByIngredients from "../api/getVideoByInggredients";
 import getVideoTrends from "../api/getVideoTrends";
-import searchVideo from "../api/searchVideo";
 
 function VideoPlayer() {
   const { videoId } = useParams();

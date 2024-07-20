@@ -103,7 +103,7 @@ function ListFoodVarian() {
                     <div style={{ width: "100%" }}>
                       {videoId ? (
                         <img
-                          className="img-fluid border"
+                          className="img-fluid"
                           style={videoThumbnailStyle}
                           src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
                           alt={video.videoName}
